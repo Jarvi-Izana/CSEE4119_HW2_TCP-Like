@@ -78,12 +78,18 @@ class Sender:
         self.first_RTT = True
         self.FIN = False
         self.fin_ack = False
+<<<<<<< HEAD
         self.stop_by_receiver = True
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         # log
         self.retrans_num = 0
         self.retrans_seg_num = 0
         self.total_byte_sent = 0
+<<<<<<< HEAD
         self.total_seg_sent = 0
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         # status
         self.retrans_status = False
 
@@ -104,7 +110,10 @@ class Sender:
             print e
         except IOError as e:
             print e
+<<<<<<< HEAD
             sys.exit('can\'t open file, pls check the file path and name.\n')
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
 
     def close_file(self):
         """
@@ -112,10 +121,13 @@ class Sender:
         :return: None
         """
         self._file.close()
+<<<<<<< HEAD
         if self.stop_by_receiver:
             self._log.write(get_local_time() + 'STOP BY RECEIVER.\n')
         else:
             self._log.write(get_local_time() + 'COMPLETED.\n')
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         self._log.write(get_local_time() + ' log closed.\n')
         self._log.flush()
         self._log.close()
@@ -134,9 +146,14 @@ class Sender:
         ack <<= 4
         h_len += ack + fin
         # h_len %= (UN_SHORT_MAX + 1)
+<<<<<<< HEAD
         self.total_seg_sent += 1
         seg_len = len(segment)
         self.total_byte_sent += (seg_len + 20)
+=======
+
+        seg_len = len(segment)
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         # the segment length must be even, if not, padding a '\x00'
         if seg_len % 2:
             seg_len += 1
@@ -218,6 +235,10 @@ class Sender:
             if self.first_RTT:
                 self.timeout_interval *= 2
             return True
+<<<<<<< HEAD
+=======
+
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         return False
 
     def send_time_buffer(self):
@@ -257,11 +278,16 @@ class Sender:
             # read 576-20 bytes
             content = self._file.read(self._MSS-20)
             if content:
+<<<<<<< HEAD
                 if self._next_seq_num < self._base:
                     self._next_seq_num += 1
                     self.start_timer()
                     continue
                 self._buffer[self._next_seq_num - self._base] = content
+=======
+                self._buffer[self._next_seq_num - self._base] = content
+                self.total_byte_sent += len(content)
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
                 # set the seq num
                 if self._next_seq_num > UN_LONG_MAX:
                     self.seq_num_to = self._next_seq_num % UN_LONG
@@ -277,11 +303,15 @@ class Sender:
                                           (self.dest_ip, self.dest_port_num))
             else:
                 self.FIN = True
+<<<<<<< HEAD
                 self.stop_by_receiver = False
                 try:
                     self._buffer[self._next_seq_num - self._base] = self.FIN
                 except IndexError, e:
                     print 'transmission already completed.\n'
+=======
+                self._buffer[self._next_seq_num - self._base] = self.FIN
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
                 self.seq_num_to = self._next_seq_num
                 self.send_time_buffer()
                 self.client_socket.sendto(self.pack_tcp_seg(0, 1, self.seq_num_to, self.ack_num_to, ''),
@@ -317,8 +347,13 @@ class Sender:
 
             if (header[4] >> 4) % 2:
                 self.ack_num_from = header[3]
+<<<<<<< HEAD
                 print 'base num:%-5d' % self._base
                 print 'ack. num:%-5d' % header[3]
+=======
+                print 'base number: ' + str(self._base)
+                print 'ack number: ' + str(header[3])
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
 
             # assume the ack will arrive in order and without loss
             if self._base > self._high and self.ack_num_from < self._low:
@@ -329,19 +364,27 @@ class Sender:
             if offset >= 0:
                 # pop out the buffer that already received
                 for i in xrange(offset + 1):
+<<<<<<< HEAD
                     try:
                         self._buffer.pop(0)
                         self._buffer.append('')
                     except IndexError:
                         pass
+=======
+                    self._buffer.pop(0)
+                    self._buffer.append('')
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
 
                 self._base += 1 + offset
                 # get the RTT time for further estimation.
                 if not self._dup_flag and offset == 0:
+<<<<<<< HEAD
                     # to determine whether the sender is retransmitting
                     # because when retransmitting, the time buffer will be cleared.
                     # also when in fast recovery mode, the time buffer is empty too,
                     # so the time should not be evaluated.
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
                     if self.estimate_interval():
                         return
                 # start the timer for next pkt
@@ -389,7 +432,11 @@ class Sender:
             self.retrans_seg_num += offset
             self.retrans_status = False
 
+<<<<<<< HEAD
             # print 'retransmission ends.'
+=======
+            print 'retransmission ends.'
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
             return
         except RuntimeError, e:
             print 'Link is broken or target can\'t be connected.\n' + e
@@ -402,6 +449,7 @@ class Sender:
         while not self.fin_ack:
             self.sendto()
             if self.is_timeout() or self.retrans_status:
+<<<<<<< HEAD
                 # print 'time out by outside.'
                 self.retransmit()
 
@@ -419,6 +467,19 @@ class Sender:
     def handle_ack(self):
         while not self.fin_ack:
             # if not self.is_timeout
+=======
+                print 'time out by outside.'
+                self.retransmit()
+
+        print get_local_time() + 'Transmission completed.\n'
+        print 'Total bytes sent = %-10d' % self.total_byte_sent
+        print 'segments sent = %-10d' % (self._next_seq_num - 1)
+        print 'segments retransmitted: %-10d' % self.retrans_seg_num
+
+    def handle_ack(self):
+        while not self.fin_ack:
+            # if not self.is_timeout():
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
             self.handle_tcp_ack()
 
 
@@ -426,10 +487,13 @@ if __name__ == '__main__':
     try:
         sender = Sender(sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]),
                         sys.argv[5], int(sys.argv[6]))
+<<<<<<< HEAD
         # sender = Sender()
         # this is fatal mistake, the target should be the reference to your func or method:
         # ack_handler = Thread(target=sender.handle_ack()), by this way, it won't prompt any instruction
         # to make you know that sth is wrong.
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         ack_handler = Thread(target=sender.handle_ack)
         ack_handler.setDaemon(True)
         ack_handler.start()
@@ -445,7 +509,11 @@ if __name__ == '__main__':
     print 'When transmission completed, press Ctrl + C to exit.'
     try:
         while True:
+<<<<<<< HEAD
             time.sleep(1)
+=======
+            time.sleep(0.01)
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
     except KeyboardInterrupt:
         print 'main process terminated by user.\n'
         sys.exit(27)
@@ -454,6 +522,9 @@ if __name__ == '__main__':
         print e
         print 'port number must be integer.\n'
         sys.exit(35)
+<<<<<<< HEAD
     except:
         print 'Pls restart the program, system inner error detected.\n'
         sys.exit(-1)
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564

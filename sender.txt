@@ -305,5 +305,8 @@ New in version 2.5.
 socket.send(string[, flags])
 Send data to the socket. The socket must be connected to a remote socket. The optional flags argument has the same meaning as for recv() above. Returns the number of bytes sent. Applications are responsible for checking that all data has been sent; if only some of the data was transmitted, the application needs to attempt delivery of the remaining data. For further information on this concept, consult the Socket Programming HOWTO.
 
+<<<<<<< HEAD
 what the fuck?
 
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564

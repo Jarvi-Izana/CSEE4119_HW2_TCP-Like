@@ -46,12 +46,15 @@ class Receiver:
         # the pkt received
         self.pkt_recv = None
         self.fin = False
+<<<<<<< HEAD
 
         # result
         self.total_byte_recv = 0
         self.total_seg_recv = 0
         self.valid_seg_recv = 0
 
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         # create file objects
         try:
             self._log = open(self.log_file_name, 'a')
@@ -82,7 +85,10 @@ class Receiver:
 
     def recv_pkt(self):
         # recv may introduce exception and the client is not the same.
+<<<<<<< HEAD
         self.total_seg_recv += 1
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         self.pkt_recv, self.client_socket = self.receiver_socket.recvfrom(MSS)
         if self.pkt_recv == '':
             raise KeyboardInterrupt('The socket is down!')
@@ -96,7 +102,10 @@ class Receiver:
         #     return False
         temp = self.pkt_recv
         byte_len = len(temp)
+<<<<<<< HEAD
         self.total_byte_recv += byte_len
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         if byte_len % 2:
             byte_len += 1
             temp += '\x00'
@@ -118,7 +127,11 @@ class Receiver:
         """
         length = len(self.pkt_recv)
         header = struct.unpack('!2H2L4H', self.pkt_recv[0:20])
+<<<<<<< HEAD
         print header
+=======
+        # print header
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         if not self.fin:
             self._log.write(get_local_time() + '[ACK.] [SRC]: %s, %-6d, [DEST]: %s, %-6d, Sequence : %d, ACK : %d, '
                             % (self.src_ip, header[0], self.dest_ip, header[1], header[2], header[3]) +
@@ -126,7 +139,10 @@ class Receiver:
         # self.dest_port_num = header[0]
         # if it's not the FIN and iff the ack_num is equal to the sequence number
         if not self.fin and self.expect_num == header[2]:
+<<<<<<< HEAD
             self.valid_seg_recv += 1
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
             # h_len = header[4] >> 12
             h_len = 20
             dat_len = length - h_len
@@ -140,12 +156,15 @@ class Receiver:
                             'ack: %-2d, fin: %-2d' % (0, self.fin) + '\n')
                 # this sentence will push the last sentence from stdout to file
                 print 'Delivery completed successfully.\n'
+<<<<<<< HEAD
                 print 'Total bytes received = %d' % self.total_byte_recv
                 print 'Segments received = %d' % self.total_seg_recv
                 print 'Segments written = %d' % (self.valid_seg_recv - 1)
                 # if a fin is received
                 return ''
 
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
             self.ack_num_to = header[2]
             self.expect_num += 1
             if self.expect_num > UN_LONG_MAX:
@@ -153,7 +172,12 @@ class Receiver:
 
             return struct.unpack('!' + str(dat_len) + 's', self.pkt_recv[h_len:])[0]
 
+<<<<<<< HEAD
 
+=======
+        # if a fin is received
+        return ''
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
 
     def pack_tcp_seg(self, ack, fin, seq_num_to, ack_num_to, segment, h_len=5):
         """
@@ -222,24 +246,34 @@ class Receiver:
             if seg:
                 self._recv.write(seg)
             # whenever a pkt arrives, an ack is sent.
+<<<<<<< HEAD
             # avoid the first pkt corrupt and ack 0 back. if the first seq 0 corrupt, no reply.
             # also, if expect_num change from UN_LONG to 0, the instruction below still applies.
             if self.ack_num_to != self.expect_num:
                 self.send_ack()
+=======
+            self.send_ack()
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
 
 if __name__ == '__main__':
     print 'Press ctrl + C to exit.\n'
     try:
         receiver = Receiver(sys.argv[1], int(sys.argv[2]), sys.argv[3], int(sys.argv[4]), sys.argv[5])
+<<<<<<< HEAD
         # receiver = Receiver()
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
         while True:
             receiver.write()
     except KeyboardInterrupt:
         try:
+<<<<<<< HEAD
             # Stop the sender.
             receiver.fin = True
             receiver.send_ack()
             print 'Terminated by user, additional fin sent to stop the sender.\n'
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
             receiver.close_file()
             receiver.receiver_socket.close()
         except ValueError:

@@ -5088,6 +5088,7 @@
 2015/11/6 23:42:45 [ACK.] [SRC]: 127.0.0.1, 20001 , [DEST]: localhost, 41192 , Sequence : 49, ACK : 0, ack: 0 , fin: 1 
 2015/11/6 23:42:45 [SENT] [SRC]: 127.0.0.1, 20000 , [DEST]: localhost, 20001 , Sequence : 0, ACK : 49, ack: 0 , fin: 1 
 2015/11/6 23:42:45 log closed.
+<<<<<<< HEAD
 2015/11/7 0:8:9 log starts.
 2015/11/7 0:8:46 [ACK.] [SRC]: 127.0.0.1, 20001 , [DEST]: localhost, 41192 , Sequence : 0, ACK : 0, ack: 0 , fin: 0 
 2015/11/7 0:8:46 [SENT] [SRC]: 127.0.0.1, 20000 , [DEST]: localhost, 20001 , Sequence : 0, ACK : 0, ack: 16, fin: 0 
@@ -13386,3 +13387,5 @@
 2015/11/8 0:9:5 [ACK.] [SRC]: 127.0.0.1, 20001 , [DEST]: localhost, 20000 , Sequence : 49, ACK : 0, ack: 0 , fin: 1 
 2015/11/8 0:9:5 [SENT] [SRC]: 127.0.0.1, 20000 , [DEST]: localhost, 20001 , Sequence : 0, ACK : 48, ack: 0 , fin: 1 
 2015/11/8 0:9:5 log closed.
+=======
+>>>>>>> 52282acb4249355a0d6b65c28b0089014db0c564
